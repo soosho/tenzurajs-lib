@@ -1,4 +1,4 @@
-var ravencoin = require('../../')
+var tenzura = require('../../')
 var Blockchain = require('cb-http-client')
 var BLOCKTRAIL_API_KEY = process.env.BLOCKTRAIL_API_KEY || 'c0bd8155c66e3fb148bb1664adc1e4dacd872548'
 var coinSelect = require('coinselect')
@@ -8,8 +8,8 @@ var types = require('../../src/types')
 var mainnet = new Blockchain('https://api.blocktrail.com/cb/v0.2.1/BTC', { api_key: BLOCKTRAIL_API_KEY })
 var testnet = new Blockchain('https://api.blocktrail.com/cb/v0.2.1/tBTC', { api_key: BLOCKTRAIL_API_KEY })
 
-var kpNetwork = ravencoin.networks.testnet
-var keyPair = ravencoin.ECPair.fromWIF('cQqjeq2rxqwnqwMewJhkNtJDixtX8ctA4bYoWHdxY4xRPVvAEjmk', kpNetwork)
+var kpNetwork = tenzura.networks.testnet
+var keyPair = tenzura.ECPair.fromWIF('cQqjeq2rxqwnqwMewJhkNtJDixtX8ctA4bYoWHdxY4xRPVvAEjmk', kpNetwork)
 var kpAddress = keyPair.getAddress()
 
 function fundAddress (unspents, outputs, callback) {
@@ -21,7 +21,7 @@ function fundAddress (unspents, outputs, callback) {
   var result = coinSelect(unspents, outputs, 10)
   if (!result.inputs) return callback(new Error('Faucet empty'))
 
-  var txb = new ravencoin.TransactionBuilder(kpNetwork)
+  var txb = new tenzura.TransactionBuilder(kpNetwork)
   result.inputs.forEach(function (x) {
     txb.addInput(x.txId, x.vout)
   })

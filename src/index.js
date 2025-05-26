@@ -10,6 +10,6 @@ module.exports = {
   bufferutils: require('./bufferutils'), // TODO: remove in 4.0.0
   crypto: require('./crypto'),
   networks: require('./networks'),
-  opcodes: require('ravencoin-ops'),
+  opcodes: require('tenzura-ops'),
   script: require('./script')
 }

@@ -3,13 +3,13 @@
 var assert = require('assert')
 var async = require('async')
 var bigi = require('bigi')
-var ravencoin = require('../../')
+var tenzura = require('../../')
 var blockchain = require('./_blockchain')
 
 var ecurve = require('ecurve')
 var secp256k1 = ecurve.getCurveByName('secp256k1')
 
-describe('ravencoinjs-lib (crypto)', function () {
+describe('tenzurajs-lib (crypto)', function () {
   it('can recover a private key from duplicate R values', function (done) {
     this.timeout(30000)
 
@@ -32,7 +32,7 @@ describe('ravencoinjs-lib (crypto)', function () {
 
       var transactions = {}
       results.forEach(function (tx) {
-        transactions[tx.txId] = ravencoin.Transaction.fromHex(tx.txHex)
+        transactions[tx.txId] = tenzura.Transaction.fromHex(tx.txHex)
       })
 
       var tasks = []
@@ -41,9 +41,9 @@ describe('ravencoinjs-lib (crypto)', function () {
       inputs.forEach(function (input) {
         var transaction = transactions[input.txId]
         var script = transaction.ins[input.vout].script
-        var scriptChunks = ravencoin.script.decompile(script)
+        var scriptChunks = tenzura.script.decompile(script)
 
-        assert(ravencoin.script.pubKeyHash.input.check(scriptChunks), 'Expected pubKeyHash script')
+        assert(tenzura.script.pubKeyHash.input.check(scriptChunks), 'Expected pubKeyHash script')
 
         var prevOutTxId = Buffer.from(transaction.ins[input.vout].hash).reverse().toString('hex')
         var prevVout = transaction.ins[input.vout].index
@@ -52,11 +52,11 @@ describe('ravencoinjs-lib (crypto)', function () {
           blockchain.m.transactions.get(prevOutTxId, function (err, result) {
             if (err) return callback(err)
 
-            var prevOut = ravencoin.Transaction.fromHex(result.txHex)
+            var prevOut = tenzura.Transaction.fromHex(result.txHex)
             var prevOutScript = prevOut.outs[prevVout].script
 
-            var scriptSignature = ravencoin.ECSignature.parseScriptSignature(scriptChunks[0])
-            var publicKey = ravencoin.ECPair.fromPublicKeyBuffer(scriptChunks[1])
+            var scriptSignature = tenzura.ECSignature.parseScriptSignature(scriptChunks[0])
+            var publicKey = tenzura.ECPair.fromPublicKeyBuffer(scriptChunks[1])
 
             var m = transaction.hashForSignature(input.vout, prevOutScript, scriptSignature.hashType)
             assert(publicKey.verify(m, scriptSignature.signature), 'Invalid m')

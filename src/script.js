@@ -1,12 +1,12 @@
 var Buffer = require('safe-buffer').Buffer
 var bip66 = require('bip66')
-var pushdata = require('pushdata-ravencoin')
+var pushdata = require('pushdata-tenzura')
 var typeforce = require('typeforce')
 var types = require('./types')
 var scriptNumber = require('./script_number')
 
-var OPS = require('ravencoin-ops')
-var REVERSE_OPS = require('ravencoin-ops/map')
+var OPS = require('tenzura-ops')
+var REVERSE_OPS = require('tenzura-ops/map')
 var OP_INT_BASE = OPS.OP_RESERVED // OP_1 - 1
 
 function isOPInt (value) {

@@ -2,7 +2,7 @@
 
 var bscript = require('../../script')
 var typeforce = require('typeforce')
-var OPS = require('ravencoin-ops')
+var OPS = require('tenzura-ops')
 
 function check (script) {
   var chunks = bscript.decompile(script)

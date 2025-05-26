@@ -3,7 +3,7 @@
 var Buffer = require('safe-buffer').Buffer
 var bscript = require('../../script')
 var typeforce = require('typeforce')
-var OPS = require('ravencoin-ops')
+var OPS = require('tenzura-ops')
 
 function partialSignature (value) {
   return value === OPS.OP_0 || bscript.isCanonicalSignature(value)

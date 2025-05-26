@@ -1,24 +1,24 @@
 Description
 ------------
 
-This directory contains data-driven tests for various aspects of Ravencoin.
+This directory contains data-driven tests for various aspects of Tenzura.
 
 
 Ravencoinjs-lib notes
 -------------------
 
-This directory does not contain all the Ravencoin core tests.
+This directory does not contain all the Tenzura core tests.
 Missing core test data includes:
 
 * `alertTests.raw`
-	Ravencoin-js does not interact with the Ravencoin network directly.
+	Tenzura-js does not interact with the Tenzura network directly.
 
 * `tx_invalid.json`
-	Ravencoin-js can not evaluate Scripts, making testing this irrelevant.
+	Tenzura-js can not evaluate Scripts, making testing this irrelevant.
 	It can decode valid Transactions, therefore `tx_valid.json` remains.
 
 * `script*.json`
-	Ravencoin-js can not evaluate Scripts, making testing this irrelevant.
+	Tenzura-js can not evaluate Scripts, making testing this irrelevant.
 
 
 License

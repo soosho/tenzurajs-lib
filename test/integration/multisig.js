@@ -2,10 +2,10 @@
 
 var async = require('async')
 var assert = require('assert')
-var ravencoin = require('../../')
+var tenzura = require('../../')
 var blockchain = require('./_blockchain')
 
-describe('ravencoinjs-lib (multisig)', function () {
+describe('tenzurajs-lib (multisig)', function () {
   it('can create a 2-of-3 multisig P2SH address', function () {
     var pubKeys = [
       '026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01',
@@ -15,9 +15,9 @@ describe('ravencoinjs-lib (multisig)', function () {
       return Buffer.from(hex, 'hex')
     })
 
-    var redeemScript = ravencoin.script.multisig.output.encode(2, pubKeys) // 2 of 3
-    var scriptPubKey = ravencoin.script.scriptHash.output.encode(ravencoin.crypto.hash160(redeemScript))
-    var address = ravencoin.address.fromOutputScript(scriptPubKey)
+    var redeemScript = tenzura.script.multisig.output.encode(2, pubKeys) // 2 of 3
+    var scriptPubKey = tenzura.script.scriptHash.output.encode(tenzura.crypto.hash160(redeemScript))
+    var address = tenzura.address.fromOutputScript(scriptPubKey)
 
     assert.strictEqual(address, '36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7')
   })
@@ -30,18 +30,18 @@ describe('ravencoinjs-lib (multisig)', function () {
       '91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgww7vXtT',
       '91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgx3cTMqe',
       '91avARGdfge8E4tZfYLoxeJ5sGBdNJQH4kvjJoQFacbgx9rcrL7'
-    ].map(function (wif) { return ravencoin.ECPair.fromWIF(wif, ravencoin.networks.testnet) })
+    ].map(function (wif) { return tenzura.ECPair.fromWIF(wif, tenzura.networks.testnet) })
     var pubKeys = keyPairs.map(function (x) { return x.getPublicKeyBuffer() })
 
-    var redeemScript = ravencoin.script.multisig.output.encode(2, pubKeys) // 2 of 4
-    var scriptPubKey = ravencoin.script.scriptHash.output.encode(ravencoin.crypto.hash160(redeemScript))
-    var address = ravencoin.address.fromOutputScript(scriptPubKey, ravencoin.networks.testnet)
+    var redeemScript = tenzura.script.multisig.output.encode(2, pubKeys) // 2 of 4
+    var scriptPubKey = tenzura.script.scriptHash.output.encode(tenzura.crypto.hash160(redeemScript))
+    var address = tenzura.address.fromOutputScript(scriptPubKey, tenzura.networks.testnet)
 
     // attempt to send funds to the source address
     blockchain.t.faucet(address, 2e4, function (err, unspent) {
       if (err) return done(err)
 
-      var txb = new ravencoin.TransactionBuilder(ravencoin.networks.testnet)
+      var txb = new tenzura.TransactionBuilder(tenzura.networks.testnet)
       txb.addInput(unspent.txId, unspent.vout)
       txb.addOutput(blockchain.t.RETURN, 1e4)
 

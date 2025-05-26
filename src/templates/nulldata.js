@@ -3,7 +3,7 @@
 var bscript = require('../script')
 var types = require('../types')
 var typeforce = require('typeforce')
-var OPS = require('ravencoin-ops')
+var OPS = require('tenzura-ops')
 
 function check (script) {
   var buffer = bscript.compile(script)

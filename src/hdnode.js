@@ -26,7 +26,7 @@ function HDNode (keyPair, chainCode) {
 
 HDNode.HIGHEST_BIT = 0x80000000
 HDNode.LENGTH = 78
-HDNode.MASTER_SECRET = Buffer.from('Ravencoin seed', 'utf8')
+HDNode.MASTER_SECRET = Buffer.from('Tenzura seed', 'utf8')
 
 HDNode.fromSeedBuffer = function (seed, network) {
   typeforce(types.tuple(types.Buffer, types.maybe(types.Network)), arguments)
@@ -69,9 +69,9 @@ HDNode.fromBase58 = function (string, networks) {
 
     if (!network) throw new Error('Unknown network version')
 
-  // otherwise, assume a network object (or default to ravencoin)
+  // otherwise, assume a network object (or default to tenzura)
   } else {
-    network = networks || NETWORKS.ravencoin
+    network = networks || NETWORKS.tenzura
   }
 
   if (version !== network.bip32.private &&

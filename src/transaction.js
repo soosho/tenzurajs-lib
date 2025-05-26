@@ -2,10 +2,10 @@ var Buffer = require('safe-buffer').Buffer
 var bcrypto = require('./crypto')
 var bscript = require('./script')
 var bufferutils = require('./bufferutils')
-var opcodes = require('ravencoin-ops')
+var opcodes = require('tenzura-ops')
 var typeforce = require('typeforce')
 var types = require('./types')
-var varuint = require('varuint-ravencoin')
+var varuint = require('varuint-tenzura')
 
 function varSliceSize (someScript) {
   var length = someScript.length
@@ -246,7 +246,7 @@ Transaction.prototype.clone = function () {
 /**
  * Hash transaction for signing a specific input.
  *
- * Ravencoin uses a different hash for each signed transaction input.
+ * Tenzura uses a different hash for each signed transaction input.
  * This method copies the transaction, makes the necessary changes based on the
  * hashType, and then hashes the result.
  * This hash can then be used to sign the provided transaction input.

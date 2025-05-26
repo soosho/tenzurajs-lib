@@ -152,7 +152,7 @@ describe('ECPair', function () {
       var keyPair = ECPair.makeRandom()
 
       assert.strictEqual(keyPair.compressed, true)
-      assert.strictEqual(keyPair.network, NETWORKS.ravencoin)
+      assert.strictEqual(keyPair.network, NETWORKS.tenzura)
     })
 
     it('supports the options parameter', function () {

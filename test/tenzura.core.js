@@ -2,7 +2,7 @@
 
 var assert = require('assert')
 var base58 = require('bs58')
-var ravencoin = require('../')
+var tenzura = require('../src')
 
 var base58EncodeDecode = require('./fixtures/core/base58_encode_decode.json')
 var base58KeysInvalid = require('./fixtures/core/base58_keys_invalid.json')
@@ -13,7 +13,7 @@ var sigHash = require('./fixtures/core/sighash.json')
 var sigNoncanonical = require('./fixtures/core/sig_noncanonical.json')
 var txValid = require('./fixtures/core/tx_valid.json')
 
-describe('Ravencoin-core', function () {
+describe('Tenzura-core', function () {
   // base58EncodeDecode
   describe('base58', function () {
     base58EncodeDecode.forEach(function (f) {
@@ -50,11 +50,11 @@ describe('Ravencoin-core', function () {
 
       if (params.isPrivkey) return
 
-      var network = params.isTestnet ? ravencoin.networks.testnet : ravencoin.networks.ravencoin
+      var network = params.isTestnet ? tenzura.networks.testnet : tenzura.networks.tenzura
       var version = network[typeMap[params.addrType]]
 
       it('can export ' + expected, function () {
-        assert.strictEqual(ravencoin.address.toBase58Check(hash, version), expected)
+        assert.strictEqual(tenzura.address.toBase58Check(hash, version), expected)
       })
     })
   })
@@ -62,10 +62,10 @@ describe('Ravencoin-core', function () {
   // base58KeysInvalid
   describe('address.fromBase58Check', function () {
     var allowedNetworks = [
-      ravencoin.networks.ravencoin.pubkeyhash,
-      ravencoin.networks.ravencoin.scripthash,
-      ravencoin.networks.testnet.pubkeyhash,
-      ravencoin.networks.testnet.scripthash
+      tenzura.networks.tenzura.pubkeyhash,
+      tenzura.networks.tenzura.scripthash,
+      tenzura.networks.testnet.pubkeyhash,
+      tenzura.networks.testnet.scripthash
     ]
 
     base58KeysInvalid.forEach(function (f) {
@@ -73,7 +73,7 @@ describe('Ravencoin-core', function () {
 
       it('throws on ' + string, function () {
         assert.throws(function () {
-          var address = ravencoin.address.fromBase58Check(string)
+          var address = tenzura.address.fromBase58Check(string)
 
           assert.notEqual(allowedNetworks.indexOf(address.version), -1, 'Invalid network')
         }, /(Invalid (checksum|network))|(too (short|long))/)
@@ -90,8 +90,8 @@ describe('Ravencoin-core', function () {
 
       if (!params.isPrivkey) return
 
-      var network = params.isTestnet ? ravencoin.networks.testnet : ravencoin.networks.ravencoin
-      var keyPair = ravencoin.ECPair.fromWIF(string, network)
+      var network = params.isTestnet ? tenzura.networks.testnet : tenzura.networks.tenzura
+      var keyPair = tenzura.ECPair.fromWIF(string, network)
 
       it('fromWIF imports ' + string, function () {
         assert.strictEqual(keyPair.d.toHex(), hex)
@@ -107,8 +107,8 @@ describe('Ravencoin-core', function () {
   // base58KeysInvalid
   describe('ECPair.fromWIF', function () {
     var allowedNetworks = [
-      ravencoin.networks.ravencoin,
-      ravencoin.networks.testnet
+      tenzura.networks.tenzura,
+      tenzura.networks.testnet
     ]
 
     base58KeysInvalid.forEach(function (f) {
@@ -116,7 +116,7 @@ describe('Ravencoin-core', function () {
 
       it('throws on ' + string, function () {
         assert.throws(function () {
-          ravencoin.ECPair.fromWIF(string, allowedNetworks)
+          tenzura.ECPair.fromWIF(string, allowedNetworks)
         }, /(Invalid|Unknown) (checksum|compression flag|network version|WIF length)/)
       })
     })
@@ -125,7 +125,7 @@ describe('Ravencoin-core', function () {
   describe('Block.fromHex', function () {
     blocksValid.forEach(function (f) {
       it('can parse ' + f.id, function () {
-        var block = ravencoin.Block.fromHex(f.hex)
+        var block = tenzura.Block.fromHex(f.hex)
 
         assert.strictEqual(block.getId(), f.id)
         assert.strictEqual(block.transactions.length, f.transactions)
@@ -144,7 +144,7 @@ describe('Ravencoin-core', function () {
       //      var verifyFlags = f[2] // TODO: do we need to test this?
 
       it('can decode ' + fhex, function () {
-        var transaction = ravencoin.Transaction.fromHex(fhex)
+        var transaction = tenzura.Transaction.fromHex(fhex)
 
         transaction.ins.forEach(function (txIn, i) {
           var input = inputs[i]
@@ -175,20 +175,20 @@ describe('Ravencoin-core', function () {
       var expectedHash = f[4]
 
       var hashTypes = []
-      if ((hashType & 0x1f) === ravencoin.Transaction.SIGHASH_NONE) hashTypes.push('SIGHASH_NONE')
-      else if ((hashType & 0x1f) === ravencoin.Transaction.SIGHASH_SINGLE) hashTypes.push('SIGHASH_SINGLE')
+      if ((hashType & 0x1f) === tenzura.Transaction.SIGHASH_NONE) hashTypes.push('SIGHASH_NONE')
+      else if ((hashType & 0x1f) === tenzura.Transaction.SIGHASH_SINGLE) hashTypes.push('SIGHASH_SINGLE')
       else hashTypes.push('SIGHASH_ALL')
-      if (hashType & ravencoin.Transaction.SIGHASH_ANYONECANPAY) hashTypes.push('SIGHASH_ANYONECANPAY')
+      if (hashType & tenzura.Transaction.SIGHASH_ANYONECANPAY) hashTypes.push('SIGHASH_ANYONECANPAY')
 
       var hashTypeName = hashTypes.join(' | ')
 
       it('should hash ' + txHex.slice(0, 40) + '... (' + hashTypeName + ')', function () {
-        var transaction = ravencoin.Transaction.fromHex(txHex)
+        var transaction = tenzura.Transaction.fromHex(txHex)
         assert.strictEqual(transaction.toHex(), txHex)
 
         var script = Buffer.from(scriptHex, 'hex')
-        var scriptChunks = ravencoin.script.decompile(script)
-        assert.strictEqual(ravencoin.script.compile(scriptChunks).toString('hex'), scriptHex)
+        var scriptChunks = tenzura.script.decompile(script)
+        assert.strictEqual(tenzura.script.compile(scriptChunks).toString('hex'), scriptHex)
 
         var hash = transaction.hashForSignature(inIndex, script, hashType)
 
@@ -203,7 +203,7 @@ describe('Ravencoin-core', function () {
       var buffer = Buffer.from(hex, 'hex')
 
       it('can parse ' + hex, function () {
-        var parsed = ravencoin.ECSignature.parseScriptSignature(buffer)
+        var parsed = tenzura.ECSignature.parseScriptSignature(buffer)
         var actual = parsed.signature.toScriptSignature(parsed.hashType)
         assert.strictEqual(actual.toString('hex'), hex)
       })
@@ -218,7 +218,7 @@ describe('Ravencoin-core', function () {
 
       it('throws on ' + description, function () {
         assert.throws(function () {
-          ravencoin.ECSignature.parseScriptSignature(buffer)
+          tenzura.ECSignature.parseScriptSignature(buffer)
         }, /Expected DER (integer|sequence)|(R|S) value (excessively padded|is negative)|(R|S|DER sequence) length is (zero|too short|too long|invalid)|Invalid hashType/)
       })
     })

@@ -3,7 +3,7 @@ var baddress = require('./address')
 var bcrypto = require('./crypto')
 var bscript = require('./script')
 var networks = require('./networks')
-var ops = require('ravencoin-ops')
+var ops = require('tenzura-ops')
 var typeforce = require('typeforce')
 var types = require('./types')
 var scriptTypes = bscript.types
@@ -448,7 +448,7 @@ function buildInput (input, allowIncomplete) {
 
 function TransactionBuilder (network, maximumFeeRate) {
   this.prevTxMap = {}
-  this.network = network || networks.ravencoin
+  this.network = network || networks.tenzura
 
   // WARNING: This is __NOT__ to be relied on, its just another potential safety mechanism (safety in-depth)
   this.maximumFeeRate = maximumFeeRate || 1000

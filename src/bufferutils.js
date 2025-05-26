@@ -1,5 +1,5 @@
-var pushdata = require('pushdata-ravencoin')
-var varuint = require('varuint-ravencoin')
+var pushdata = require('pushdata-tenzura')
+var varuint = require('varuint-tenzura')
 
 // https://github.com/feross/buffer/blob/master/index.js#L1127
 function verifuint (value, max) {

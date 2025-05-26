@@ -2,8 +2,8 @@
 // Dogecoin BIP32 is a proposed standard: https://bitcointalk.org/index.php?topic=409731
 
 module.exports = {
-  ravencoin: {
-    messagePrefix: '\x1aRavencoin Signed Message:\n',
+  tenzura: {
+    messagePrefix: '\x1aTenzura Signed Message:\n',
     bip32: {
         public: 0x0488b21e,
         private: 0x0488ade4
@@ -13,7 +13,7 @@ module.exports = {
     wif: 0x80
   },
   testnet: {
-    messagePrefix: '\x1aRavencoin Signed Message:\n',
+    messagePrefix: '\x1aTenzura Signed Message:\n',
     bip32: {
       public: 0x043587cf,
       private: 0x04358394
